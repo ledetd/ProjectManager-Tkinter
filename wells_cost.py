@@ -3,13 +3,7 @@ from tkinter import ttk
 from tkinter import messagebox
 import sqlite3
 
-
-
-
-
 # DATABASE
-
-
 conn = sqlite3.connect('best_pm.db')
 c = conn.cursor()
 
