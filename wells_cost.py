@@ -54,6 +54,36 @@ def clear_entries():
     engineering_entry.delete(0, END)
     herc_entry.delete(0, END)
 
+def add_record():
+    conn = sqlite3.connect('best_pm.db')
+    c = conn.cursor()
+    c.execute("INSERT INTO well_costs VALUES (:date, :project_name, :well_name, :personnel, :equipment, :pm, :engineering, :herc)",
+              {
+                    'date': date_entry.get(),
+                    'project_name': project_entry.get(),
+                    'well_name': well_entry.get(),
+                    'personnel': personnel_entry.get(),
+                    'equipment': equipment_entry.get(),
+                    'pm': pm_entry.get(),
+                    'engineering': engineering_entry.get(),
+                    'herc': herc_entry.get(),
+              })
+    conn.commit()
+    conn.close()
+
+    date_entry.delete(0, END)
+    project_entry.delete(0, END)
+    well_entry.delete(0, END)
+    personnel_entry.delete(0, END)
+    equipment_entry.delete(0, END)
+    pm_entry.delete(0, END)
+    engineering_entry.delete(0, END)
+    herc_entry.delete(0, END)
+
+    my_tree.delete(*my_tree.get_children())
+
+    query_database()
+
 def select_record(event):
     #CLEAR BOXES
     date_entry.delete(0, END)
@@ -96,6 +126,12 @@ def update_record():
 def remove_one():
     x = my_tree.selection()[0]
     my_tree.delete(x)
+
+    # conn = sqlite3.connect('best_pm.db')
+    # c = conn.cursor()
+
+    # conn.commit()
+    # conn.close()
 
 def remove_many():
     x = my_tree.selection()
@@ -211,7 +247,7 @@ herc_entry.grid(row=1, column=9, padx=10, pady=10)
 button_frame = LabelFrame(root, text="Commands")
 button_frame.pack(fill="x", expand="yes", padx=20)
 
-add_button = Button(button_frame, text="Add Day")
+add_button = Button(button_frame, text="Add Day", command=add_record)
 add_button.grid(row=0, column=1, padx=10, pady=15)
 
 update_button = Button(button_frame, text="Update Day", command=update_record)
